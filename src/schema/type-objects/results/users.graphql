@@ -1,0 +1,9 @@
+
+type ResultUsers implements Result{
+    "Estado de la operación"
+    status: Boolean!
+    "Mensaje de la operacion para dar feedback"
+    message: String!
+   "Lista de usuarios registrados en la Base de datos (Clientes / Admins"
+    users: [User!]!
+}

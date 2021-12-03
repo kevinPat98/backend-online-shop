@@ -1,0 +1,24 @@
+"""
+Información detalla del usuario
+* Para tener en cuenta:
+Email= usuario del cliente de la base de datos.
+Fecha de nacimiento y registro en formato ISO.
+"""
+type User{
+    "Identificador Único"
+    id: ID!
+    "Nombre de Pila"
+    name: String!
+    "Apellido/s"
+    lastname: String!
+    "Correo Electrónico"
+    email: String!
+    "Password asociado a la cuenta"
+    password: String!
+    "Fecha de registro en la base de datos"
+    registerDate: String!
+    "Fecha de nacimiento - Solo mayores de 18 años"
+    birthday: String!
+    "Permisos del Usuario"
+    role: Role!
+}
