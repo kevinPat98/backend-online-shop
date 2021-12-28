@@ -1,0 +1,9 @@
+type ResultGenre implements Result{
+    "Estado de la operación"
+    status: Boolean!
+    "Mensaje de la operacion para dar feedback"
+    message: String!
+    genre: Genre
+    genres: [Genre!]
+
+}
