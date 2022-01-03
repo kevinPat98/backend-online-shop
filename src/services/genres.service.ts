@@ -11,8 +11,10 @@ class GenresService extends ResolversOperationsService{
     }
 
     async items(){
-        const result= await this.list(this.collection, 'generos');
-        return{status: result.status, message: result.message, genres: result.items };
+        const page = this.getVariables().pagination?.page;
+        const itemsPage = this.getVariables().pagination?.itemsPage;
+        const result= await this.list(this.collection, 'generos', page, itemsPage);
+        return{info: result.info, status: result.status, message: result.message, genres: result.items };
     }
     async details(){
         const result= await this.get(this.collection);
