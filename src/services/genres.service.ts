@@ -85,6 +85,22 @@ class GenresService extends ResolversOperationsService{
         const result = await this.del(this.collection, {id}, 'genero');
         return{status: result.status, message: result.message };
     }
+    async block(){
+        const id = this.getVariables().id;
+        if(!this.checkData(String(id)|| '')){
+            return {
+                status: false,
+                message: 'El ID del genero no se ha especificado correctamente',
+                genre: null
+            };
+        }
+        const result = await this.update(this.collection, { id }, { active: false }, 'Género');
+        return {
+            status: result.status,
+            message: (result.status) ? 'Bloqueado Correctamente': 'No se ha bloqueado'
+        };
+    }
+
     private checkData(value: string){
         return (value === '' || value === undefined) ? false:true;
     }

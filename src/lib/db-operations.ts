@@ -91,6 +91,6 @@ export const findElements = async (
     .toArray();
 };
 
-export const countElements = async (database: Db, collection: string) => {
-  return await database.collection(collection).countDocuments();
+export const countElements = async (database: Db, collection: string, filter: object = {}) => {
+  return await database.collection(collection).countDocuments(filter);
 };

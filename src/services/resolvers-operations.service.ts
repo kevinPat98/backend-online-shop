@@ -17,23 +17,41 @@ class ResolversOperationsService {
     this.context = context;
   }
 
-  protected getContext(): IcontextData { return this.context;}
-  protected getDb(): Db { return this.context.db!; }
-  protected getVariables(): IVariables { return this.variables; }
+  protected getContext(): IcontextData {
+    return this.context;
+  }
+  protected getDb(): Db {
+    return this.context.db!;
+  }
+  protected getVariables(): IVariables {
+    return this.variables;
+  }
   // Listar información
-  protected async list(collection: string, listElement: string, page: number = 1, itemsPage: number = 20) {
+  protected async list(
+    collection: string,
+    listElement: string,
+    page: number = 1,
+    itemsPage: number = 20,
+    filter: object = { active: { $ne: false}}
+  ) {
     try {
-      const paginationData =  await pagination(this.getDb(), collection, page, itemsPage);
+      const paginationData = await pagination(
+        this.getDb(),
+        collection,
+        page,
+        itemsPage,
+        filter
+      );
       return {
         info: {
           page: paginationData.page,
           pages: paginationData.pages,
           itemsPage: paginationData.itemsPage,
-          total: paginationData.total
+          total: paginationData.total,
         },
         status: true,
         message: `Lista de ${listElement} correctamente cargada`,
-        items: await findElements(this.getDb(), collection, {}, paginationData),
+        items: await findElements(this.getDb(), collection, filter, paginationData),
       };
     } catch (error) {
       return {
@@ -79,15 +97,15 @@ class ResolversOperationsService {
         (res) => {
           if (res.result.ok === 1) {
             return {
-                status: true,
-                message: `Añadido correctamente el ${item}.`,
-                item: document
-              };
+              status: true,
+              message: `Añadido correctamente el ${item}.`,
+              item: document,
+            };
           }
           return {
             status: false,
             message: `No se ha insertado el ${item}. Intente de nuevo`,
-            item: null
+            item: null,
           };
         }
       );
@@ -95,65 +113,68 @@ class ResolversOperationsService {
       return {
         status: false,
         message: `Error inesperado al insertar el ${item}. Intente de nuevo`,
-        item: null
+        item: null,
       };
     }
   }
   // Modificar item
-  protected async update(collection: string, filter: object, objectUpdate: object, item:string){
-      try{
-            return await updateOneElement(
-                this.getDb(),
-                collection,
-                filter,
-                objectUpdate
-            ).then(
-                res => {
-                    if(res.result.nModified === 1 && res.result.ok ) {
-                        return {
-                            status: true,
-                            message: `Elemento del ${item} Actualizado correctamente`,
-                            item: Object.assign({}, filter, objectUpdate)
-                        };
-                    }
-                    return {
-                        status: false,
-                        message: `Elemento del ${item}; No hay nada que actualizar`,
-                        item: null
-                    };
-                }
-            );
-      }catch (error){
-        return {
-            status: false,
-            message: `Error inesperado al actualizar el ${item}. Intente de nuevo`,
-            item: null
+  protected async update(
+    collection: string,
+    filter: object,
+    objectUpdate: object,
+    item: string
+  ) {
+    try {
+      return await updateOneElement(
+        this.getDb(),
+        collection,
+        filter,
+        objectUpdate
+      ).then((res) => {
+        if (res.result.nModified === 1 && res.result.ok) {
+          return {
+            status: true,
+            message: `Elemento del ${item} Actualizado correctamente`,
+            item: Object.assign({}, filter, objectUpdate),
           };
-      }
-  }
-  // Eliminar item
-  protected async del(collection: string, filter: object, item: string){
-      try {
-        return await deleteOneElement(this.getDb(),collection,filter).then(
-          res => {
-              if(res.deletedCount === 1){
-                return {
-                  status: true,
-                  message: `Elemento del ${item} Se ha eliminado correctamente`,
-                };
-              }
-              return {
-                status: false,
-                message: `Elemento del ${item} No se ha eliminado correctamente`,
-              };
-          }
-        );
-      } catch (error) {
+        }
         return {
           status: false,
-          message: `Error inesperado al eliminar el ${item}. Intente de nuevo`,
+          message: `Elemento del ${item}; No hay nada que actualizar`,
+          item: null,
         };
-      }
+      });
+    } catch (error) {
+      return {
+        status: false,
+        message: `Error inesperado al actualizar el ${item}. Intente de nuevo`,
+        item: null,
+      };
+    }
+  }
+  // Eliminar item
+  protected async del(collection: string, filter: object, item: string) {
+    try {
+      return await deleteOneElement(this.getDb(), collection, filter).then(
+        (res) => {
+          if (res.deletedCount === 1) {
+            return {
+              status: true,
+              message: `Elemento del ${item} Se ha eliminado correctamente`,
+            };
+          }
+          return {
+            status: false,
+            message: `Elemento del ${item} No se ha eliminado correctamente`,
+          };
+        }
+      );
+    } catch (error) {
+      return {
+        status: false,
+        message: `Error inesperado al eliminar el ${item}. Intente de nuevo`,
+      };
+    }
   }
 }
 
