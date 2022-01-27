@@ -8,6 +8,7 @@ import schema from './schema';
 import expressPlayground from 'graphql-playground-middleware-express';
 import Database from './lib/database';
 import { Icontext } from './interfaces/context.interface';
+import chalk from 'chalk';
 
 // configuración de las variables de entorno  (lectura)
 if(process.env.NODE_ENV !== 'production'){
@@ -50,7 +51,12 @@ async function init() {
         {
             port: PORT
         },
-        () => console.log(`http://localhost:${PORT} API - ONLINE SHOP START`)
+        () => {
+            console.log('===========================SERVER API GRAPHQL==========================');
+            console.log(`STATUS: ${chalk.greenBright('ONLINE')}`);
+            console.log(`MESSAGE: ${chalk.greenBright('API TIENDA VIRTUAL')}`);
+            console.log(`URL: http://localhost:${PORT}`);
+        }
     );
 
 

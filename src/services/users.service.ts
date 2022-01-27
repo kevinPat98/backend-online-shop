@@ -5,6 +5,7 @@ import ResolversOperationsService from './resolvers-operations.service';
 
 import bcrypt from 'bcrypt';
 import JWT from '../lib/jwt';
+import MailService from './mail.service';
 
 class UsersService extends ResolversOperationsService {
   private collection = COLLECTIONS.USERS;
@@ -164,8 +165,9 @@ class UsersService extends ResolversOperationsService {
     };
   }
   // Bloquear Usuario Seleccionado
-  async block(){
+  async unblock(unblock: boolean){
     const id = this.getVariables().id;
+    const user = this.getVariables().user;
         if(!this.checkData(String(id)|| '')){
             return {
                 status: false,
@@ -173,11 +175,46 @@ class UsersService extends ResolversOperationsService {
                 genre: null
             };
         }
-        const result = await this.update(this.collection, { id }, { active: false }, 'usuario');
+        if(user?.password === '1234'){
+          return {
+            status: false,
+            message: 'No se puede activar porque no se ha cambiado la contraseña 1234 '
+          };
+        }
+        let update = {active: unblock};
+        if (unblock) {
+          update = Object.assign({}, {active: true}, 
+            {
+              birthday: user?.birthday, 
+              password: bcrypt.hashSync(user?.password || '', 10)
+            });
+        }
+        console.log(update);
+        const result = await this.update(this.collection, { id }, update, 'usuario');
+        const action = (unblock) ? 'Desbloqueado' : 'Bloqueado';
         return {
             status: result.status,
-            message: (result.status) ? 'Bloqueado Correctamente': 'No se ha bloqueado'
+            message: (result.status) ? `${action} Correctamente`: `No se ha ${action.toLowerCase()} comprobarlo`
         };
+  }
+
+  async active (){
+    const id = this.getVariables().user?.id;
+    const email = this.getVariables().user?.email || '';
+    if (email === undefined || email === ''){
+      return {
+        status: false,
+        message: 'Email no definido correctamente'
+      };
+    }
+    const token = new JWT().sign({user: {id, email}}, EXPIRETIME.H1);
+      const html = `Para activar la cuenta ingrese a este link: <a href="${process.env.CLIENT_URL}/#/active/${token}">Click Aquí</a>`;
+      const mail = {
+        subject: 'Activar Usuario',
+        to: email,
+        html
+      };
+      return new MailService().send(mail);
   }
   private checkData(value: string){
     return (value === '' || value === undefined) ? false:true;
