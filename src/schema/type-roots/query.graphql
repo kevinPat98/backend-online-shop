@@ -1,13 +1,29 @@
-"Definición de los tipos de raíz"
-type Query{
-    "Lista de usuarios registrados en la Base de datos (Clientes / Admins"
-    users (page: Int = 1, itemsPage: Int = 20): ResultUsers
+"Definiciones de los tipos de raíz"
+type Query {
+    "Lista de usuarios registrados en la Base de datos (Clientes / Admins)"
+    users (
+        "Página seleccionada para acceder a ella"
+        page: Int = 1,
+        "Usuarios por página que se obtendrán por página"
+        itemsPage: Int = 20,
+        "Especificar el estado del usuario que queremos mostrar"
+        active: ActiveFilterEnum = ACTIVE): ResultUsers
     "Para iniciar sesión de usuario"
-    login(email: String!, password: String!): ResultLogin
-    "Autenticarse mediante token"
+    login(
+        "Correo electrónico del usuario con el que nos vamos a loguear"
+        email: String!, 
+        "Contraseña que necesitamos para autenticarnos e iniciar sesión"
+        password: String!): ResultLogin
+    "Autenticarnos mediante token"
     me: ResultUser
-    "Lista de generos"
-    genres (page: Int = 1, itemsPage: Int = 20): ResultGenre
-    "Item del genero seleccionado"
-    genre(id: ID!): ResultGenre
+    "Lista de géneros"
+    genres (
+        "Página seleccionada para acceder a ella"
+        page: Int = 1,
+        "Géneros de los juegos que se obtendrán por página"
+        itemsPage: Int = 20): ResultGenre
+    "Item del género seleccionado"
+    genre(
+        "Identificador del género seleccionado"
+        id: ID!): ResultGenre
 }

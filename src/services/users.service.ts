@@ -1,6 +1,6 @@
 import { asignDocumentId, findOneElement } from './../lib/db-operations';
 import { IcontextData } from './../interfaces/context-data.interface';
-import { COLLECTIONS, EXPIRETIME, MESSAGES } from './../config/constants';
+import { ACTIVE_VALUES_FILTER, COLLECTIONS, EXPIRETIME, MESSAGES } from './../config/constants';
 import ResolversOperationsService from './resolvers-operations.service';
 
 import bcrypt from 'bcrypt';
@@ -13,10 +13,17 @@ class UsersService extends ResolversOperationsService {
     super(root, variables, context);
   }
   // Lista de Usuarios
-  async items() {
+  async items(active: string =  ACTIVE_VALUES_FILTER.ACTIVE) {
+    console.log('service', active);
+    let filter: object = { active: {$ne: false}};
+    if (active === ACTIVE_VALUES_FILTER.ALL){
+      filter = {};
+    } else if (active === ACTIVE_VALUES_FILTER.INACTIVE){
+      filter = { active: false};
+    }
     const page = this.getVariables().pagination?.page;
     const itemsPage = this.getVariables().pagination?.itemsPage;
-    const result = await this.list(this.collection, 'usuarios',page, itemsPage);
+    const result = await this.list(this.collection, 'usuarios',page, itemsPage, filter);
     return {
       info: result.info,
       status: result.status,
@@ -165,7 +172,7 @@ class UsersService extends ResolversOperationsService {
     };
   }
   // Bloquear Usuario Seleccionado
-  async unblock(unblock: boolean){
+  async unblock(unblock: boolean, admin: boolean){
     const id = this.getVariables().id;
     const user = this.getVariables().user;
         if(!this.checkData(String(id)|| '')){
@@ -182,7 +189,8 @@ class UsersService extends ResolversOperationsService {
           };
         }
         let update = {active: unblock};
-        if (unblock) {
+        if (unblock && !admin) {
+          console.log('Cliente camniarno la constraseña');
           update = Object.assign({}, {active: true}, 
             {
               birthday: user?.birthday, 
