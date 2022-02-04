@@ -16,14 +16,6 @@ type Query {
         password: String!): ResultLogin
     "Autenticarnos mediante token"
     me: ResultUser
-    "Lista de géneros"
-    genres (
-        "Página seleccionada para acceder a ella"
-        page: Int = 1,
-        "Géneros de los juegos que se obtendrán por página"
-        itemsPage: Int = 20): ResultGenre
-    "Item del género seleccionado"
-    genre(
-        "Identificador del género seleccionado"
-        id: ID!): ResultGenre
+    
+   
 }
