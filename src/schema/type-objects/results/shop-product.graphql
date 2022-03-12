@@ -2,7 +2,7 @@ type ResultShopProduct implements Result {
     info: ResultInfo
     "Estado de la operación"
     status: Boolean!
-    "Mensaje de la operacion para dar feedback"
+    "Mensaje de la operación para dar feedback"
     message: String!
     "Producto de la tienda seleccionado"
     shopProduct: ShopProduct

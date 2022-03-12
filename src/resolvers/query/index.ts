@@ -1,12 +1,12 @@
 import GMR from 'graphql-merge-resolvers';
-import resolversGenreQuery from './genre';
-import resolversShopProductQuery from './shop-product';
-import resolversTagQuery from './tag';
 import resolversUserQuery from './user';
+import resolversShopProductsQuery from './shop-product';
+import resolversGenreQuery from './genre';
+import resolversTagQuery from './tag';
 
 const queryResolvers = GMR.merge([
     resolversUserQuery,
-    resolversShopProductQuery,
+    resolversShopProductsQuery,
     resolversGenreQuery,
     resolversTagQuery
 ]);

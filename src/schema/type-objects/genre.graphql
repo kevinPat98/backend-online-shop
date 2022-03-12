@@ -1,5 +1,5 @@
-"Tipo de objeto paraq almacenar la información de generos del supermercado"
-type Genre implements Item{
+"Tipo de objeto para almacenar la información de generos de videojuegos"
+type Genre implements Item {
     id: ID!
     name: String!
     slug: String!

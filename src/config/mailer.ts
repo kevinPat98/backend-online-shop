@@ -9,13 +9,12 @@ export const transport = nodemailer.createTransport({
       pass: process.env.USER_PASSWORD, // generated ethereal password
     },
 });
-
-transport.verify().then(()=>{
-    console.log('===========================NODEMAILER CONFIG==========================');
+transport.verify().then(() => {
+    console.log('==================NODEMAILER CONFIG====================');
     console.log(`STATUS: ${chalk.greenBright('ONLINE')}`);
-    console.log(`MESSAGE: ${chalk.greenBright('MAILER CONNECT!!!')}`);
-}).catch( error =>{
-    console.log('===========================NODEMAILER CONFIG==========================');
+    console.log(`MESSAGE: ${chalk.greenBright('MAILER CONNECT!!')}`);
+}).catch( error => {
+    console.log('==================NODEMAILER CONFIG====================');
     console.log(`STATUS: ${chalk.redBright('OFFLINE')}`);
     console.log(`MESSAGE: ${chalk.redBright(error)}`);
 });

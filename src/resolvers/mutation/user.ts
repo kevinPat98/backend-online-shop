@@ -1,20 +1,19 @@
 import { IResolvers } from 'graphql-tools';
 import UsersService from '../../services/users.service';
-
 const resolversUserMutation: IResolvers = {
   Mutation: {
     register(_, { user }, context) {
-     return new UsersService(_, {user}, context).register();
+      return new UsersService(_, { user }, context).register();
     },
     updateUser(_, { user }, context) {
-      return new UsersService(_, {user}, context).modify();
-     },
+      return new UsersService(_, { user }, context).modify();
+    },
     deleteUser(_, { id }, context) {
-      return new UsersService(_, {id}, context).delete();
-     },
+      return new UsersService(_, { id }, context).delete();
+    },
     blockUser(_, { id, unblock, admin }, context) {
-      return new UsersService(_, {id}, context).unblock(unblock, admin);
-     }
+      return new UsersService(_, { id }, context).unblock(unblock, admin);
+    },
   },
 };
 

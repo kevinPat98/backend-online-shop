@@ -1,6 +1,6 @@
-import {Db} from 'mongodb';
+import { Db } from 'mongodb';
 
-export interface IcontextData{
+export interface IContextData {
     db?: Db;
     token?: string;
 }

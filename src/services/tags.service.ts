@@ -1,11 +1,11 @@
 import { COLLECTIONS, ACTIVE_VALUES_FILTER } from './../config/constants';
 import { findOneElement, asignDocumentId } from './../lib/db-operations';
 import ResolversOperationsService from './resolvers-operations.service';
-import { IcontextData } from '../interfaces/context-data.interface';
+import { IContextData } from '../interfaces/context-data.interface';
 import slugify from 'slugify';
 class TagsService extends ResolversOperationsService {
     collection = COLLECTIONS.TAGS;
-    constructor(root: object, variables: object, context: IcontextData) {
+    constructor(root: object, variables: object, context: IContextData) {
         super(root, variables, context);
     }
     async items(active: string = ACTIVE_VALUES_FILTER.ACTIVE) {
@@ -45,7 +45,7 @@ class TagsService extends ResolversOperationsService {
         }
         // Si valida las opciones anteriores, venir aquí y crear el documento
         const tagObject = {
-            id: await asignDocumentId(this.getDb(), this.collection, { _id: -1}),
+            id: await asignDocumentId(this.getDb(), this.collection, { id: -1}),
             name: tag,
             slug: slugify(tag || '', { lower: true })
         };

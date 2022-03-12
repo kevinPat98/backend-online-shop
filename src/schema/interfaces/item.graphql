@@ -1,5 +1,5 @@
-"Item básico para definir las propiedades básicas de los elementos de la API"
-interface Item{
+"Item básico para definir las propiedades básicas de los elementos de la API de Rawg"
+interface Item {
     id: ID!
     name: String!
     slug: String!

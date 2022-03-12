@@ -1,12 +1,11 @@
-import { IPaginationOptions } from './../interfaces/pagination-options.interface';
 import { Db } from 'mongodb';
+import { IPaginationOptions } from '../interfaces/pagination-options.interface';
 
 /**
- * Obtener el ID que se va a utilizar en el nuevo usuario
- * @param database base de datos con la que se está trabajando
- * @param collection Coleccion del ultimo elemento
- * @param sort Como se quiere ordenar { <propiedad>: -1}
- * @returns
+ * Obtener el ID que vamos a utilizar en el nuevo usuario
+ * @param database Base de datos con la que estamos trabajando
+ * @param collection Collección donde queremos buscar el último elemento
+ * @param sort Como queremos ordenarlo { <propiedad>: -1 }
  */
 export const asignDocumentId = async (
   database: Db,
@@ -77,38 +76,39 @@ export const findElements = async (
     pages: 1,
     itemsPage: -1,
     skip: 0,
-    total: -1,
+    total: -1
   }
 ) => {
   if (paginationOptions.total === -1) {
     return await database.collection(collection).find(filter).toArray();
   }
-  return await database
-    .collection(collection)
-    .find(filter)
-    .limit(paginationOptions.itemsPage)
-    .skip(paginationOptions.skip)
-    .toArray();
+  return await database.collection(collection).find(filter).limit(paginationOptions.itemsPage)
+                        .skip(paginationOptions.skip).toArray();
 };
 
-export const countElements = async (database: Db, collection: string, filter: object = {}) => {
+
+export const countElements = async (
+  database: Db,
+  collection: string,
+  filter: object = {}
+) => {
   return await database.collection(collection).countDocuments(filter);
 };
 
 export const randomItems = async(
-  database: Db, collection: string, filter: object = {}, items: number = 10
+  database: Db,
+  collection: string,
+  filter: object = {},
+  items: number = 10
 ): Promise<Array<object>> => {
   return new Promise(async(resolve) => {
     const pipeline = [
-      {
-        $match: filter
-      },
-      {
-        $sample: { size: items}
-      }
+      { $match: filter },
+      { $sample: { size: items}}
     ];
-    resolve (await database.collection(collection).aggregate(
+    resolve(await database.collection(collection).aggregate(
       pipeline
     ).toArray());
   });
 };
+

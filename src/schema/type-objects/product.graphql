@@ -8,3 +8,6 @@ type Product {
     rating: Rating
     screenshoot: [String!]!
 }
+
+
+

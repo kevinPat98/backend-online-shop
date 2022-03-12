@@ -3,34 +3,32 @@ type Query {
     shopProducts (
         "Página seleccionada para acceder a ella"
         page: Int = 1,
-        "Producto - Juegos de la tienda que se obtendrán por página"
+        "Products de la tienda (juegos) que se obtendrán por página"
         itemsPage: Int = 20,
-        "Especificar el estado del producto que queremos mostrar"
+        "Especificar el estado del product que queremos mostrar"
         active: ActiveFilterEnum = ACTIVE): ResultShopProduct
-    
     shopProductsPlatforms (
         "Página seleccionada para acceder a ella"
         page: Int = 1,
-        "Producto - Juegos de la tienda que se obtendrán por página"
+        "Products de la tienda (juegos) que se obtendrán por página"
         itemsPage: Int = 20,
-        "Especificar el estado del producto que queremos mostrar"
+        "Especificar el estado del product que queremos mostrar"
         active: ActiveFilterEnum = ACTIVE,
-        "Especificar el Id de la plataforma seleccionada"
-        platform: ID!,
-        "Seleccionar los elementos de manera aleatoria" 
+        "Especificar las plataformas seleccionadas"
+        platform: [ID!]!,
+        "Seleccionar los elementos de manera aleatoria"
         random: Boolean = false): ResultShopProduct
-    
     shopProductsOffersLast (
         "Página seleccionada para acceder a ella"
         page: Int = 1,
-        "Producto - Juegos de la tienda que se obtendrán por página"
+        "Products de la tienda (juegos) que se obtendrán por página"
         itemsPage: Int = 20,
-        "Especificar el estado del producto que queremos mostrar"
+        "Especificar el estado del product que queremos mostrar"
         active: ActiveFilterEnum = ACTIVE,
-        "Tope del precio para considerarlo como oferta"
+        "Tope del precio para considerar como oferta"
         topPrice: Float = -1,
-        "Tope de poco stock"
+        "Tope para especificar por debajo que hay poco stock"
         lastUnits: Int = -1,
-        "Seleccionar los elementos de manera aleatoria" 
+        "Seleccionar los elementos de manera aleatoria"
         random: Boolean = false): ResultShopProduct
 }

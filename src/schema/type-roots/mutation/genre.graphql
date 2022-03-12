@@ -1,5 +1,4 @@
 type Mutation {
-    
   "Acción donde vamos a añadir el género introducido"
   addGenre(
     """
@@ -31,8 +30,8 @@ type Mutation {
   """
   blockGenre(
     ""
-    id: ID!,
+    id: ID!
     "Argumento para especificar si queremos bloquear o desbloquear"
     unblock: Boolean = false
-    ): ResultGenre
+  ): ResultGenre
 }

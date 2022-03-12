@@ -40,5 +40,4 @@ type Mutation {
     unblock: Boolean = false,
     "Especificar la procedencia de la petición para la modificación"
     admin: Boolean = false): ResultUser
-
 }

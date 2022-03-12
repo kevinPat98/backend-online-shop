@@ -16,6 +16,4 @@ type Query {
         password: String!): ResultLogin
     "Autenticarnos mediante token"
     me: ResultUser
-    
-   
 }

@@ -1,8 +1,8 @@
 import GMR from 'graphql-merge-resolvers';
-import resolversMailMutation from './email';
+import resolversUserMutation from './user';
 import resolversGenreMutation from './genre';
 import resolversTagMutation from './tag';
-import resolversUserMutation from './user';
+import resolversMailMutation from './email';
 
 const mutationResolvers = GMR.merge([
     resolversUserMutation,

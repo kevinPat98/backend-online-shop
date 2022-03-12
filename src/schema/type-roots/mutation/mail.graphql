@@ -1,5 +1,4 @@
 type Mutation {
-     
   """
   Acción que usaremos para enviar correos electrónicos con la
   siguiente información dentro del **MailInput**:

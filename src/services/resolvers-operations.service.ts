@@ -1,23 +1,24 @@
-import { Db } from 'mongodb';
-import { IVariables } from './../interfaces/variable.interface';
-import { IcontextData } from './../interfaces/context-data.interface';
+import { IVariables } from './../interfaces/variables-interface';
+import { IContextData } from './../interfaces/context-data.interface';
 import {
-  deleteOneElement,
   findElements,
   findOneElement,
   insertOneElement,
   updateOneElement,
+  deleteOneElement,
 } from './../lib/db-operations';
+import { Db } from 'mongodb';
 import { pagination } from '../lib/pagination';
+
 class ResolversOperationsService {
   private variables: IVariables;
-  private context: IcontextData;
-  constructor(root: object, variables: IVariables, context: IcontextData) {
+  private context: IContextData;
+  constructor(root: object, variables: IVariables, context: IContextData) {
     this.variables = variables;
     this.context = context;
   }
 
-  protected getContext(): IcontextData {
+  protected getContext(): IContextData {
     return this.context;
   }
   protected getDb(): Db {
@@ -78,7 +79,7 @@ class ResolversOperationsService {
         }
         return {
           status: true,
-          message: `${collectionLabel} no ha obtenido ningun detalle, porque no existe`,
+          message: `${collectionLabel} no ha obtenido detalles porque no existe`,
           item: null,
         };
       });
@@ -104,7 +105,7 @@ class ResolversOperationsService {
           }
           return {
             status: false,
-            message: `No se ha insertado el ${item}. Intente de nuevo`,
+            message: `No se ha insertado el ${item}. Inténtalo de nuevo por favor`,
             item: null,
           };
         }
@@ -112,7 +113,7 @@ class ResolversOperationsService {
     } catch (error) {
       return {
         status: false,
-        message: `Error inesperado al insertar el ${item}. Intente de nuevo`,
+        message: `Error inesperado al insertar el ${item}. Inténtalo de nuevo por favor`,
         item: null,
       };
     }
@@ -134,25 +135,25 @@ class ResolversOperationsService {
         if (res.result.nModified === 1 && res.result.ok) {
           return {
             status: true,
-            message: `Elemento del ${item} Actualizado correctamente`,
+            message: `Elemento del ${item} actualizado correctamente.`,
             item: Object.assign({}, filter, objectUpdate),
           };
         }
         return {
           status: false,
-          message: `Elemento del ${item}; No hay nada que actualizar`,
+          message: `Elemento del ${item} No se ha actualizado. Comprueba que estás filtrando correctamente o simplemente que no hay nada que actualizar`,
           item: null,
         };
       });
     } catch (error) {
       return {
         status: false,
-        message: `Error inesperado al actualizar el ${item}. Intente de nuevo`,
+        message: `Error inesperado al actualizar el ${item}. Inténtalo de nuevo por favor`,
         item: null,
       };
     }
   }
-  // Eliminar item
+  // eliminar item
   protected async del(collection: string, filter: object, item: string) {
     try {
       return await deleteOneElement(this.getDb(), collection, filter).then(
@@ -160,19 +161,19 @@ class ResolversOperationsService {
           if (res.deletedCount === 1) {
             return {
               status: true,
-              message: `Elemento del ${item} Se ha eliminado correctamente`,
+              message: `Elemento del ${item} borrado correctamente.`,
             };
           }
           return {
             status: false,
-            message: `Elemento del ${item} No se ha eliminado correctamente`,
+            message: `Elemento del ${item} No se ha borrado. Comprueba el filtro.`,
           };
         }
       );
     } catch (error) {
       return {
         status: false,
-        message: `Error inesperado al eliminar el ${item}. Intente de nuevo`,
+        message: `Error inesperado al eliminar el ${item}. Inténtalo de nuevo por favor`,
       };
     }
   }

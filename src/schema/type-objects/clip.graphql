@@ -4,7 +4,7 @@ type Clip {
     preview: String
 }
 
-type ClipQuality{
+type ClipQuality {
     low: String!
     medium: String!
     full: String!
